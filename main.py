@@ -1,8 +1,10 @@
 users =[]
-# pocketmoney = []
 cost = []
 category = []
 specificaton = []
+
+
+category_check =[]
 
 
 
@@ -20,8 +22,11 @@ class expense:
 def add_user():
     user.name = input("Enter your name: ")
     users.append(user.name)
-    user.pocketmoney = int(input("Enter your pocketmoney: "))
+   
     # pocketmoney.append(user.pocketmoney)
+def pocketmoney():
+    user.pocketmoney = int(input("Enter your pocketmoney: "))
+
 
 def add_pocketmoney():
     global cost,category,specification
@@ -34,8 +39,26 @@ def add_expense():
     global cost,category,specificaton
     expense.cost = int(input("Enter the cost: "))
     cost.append(expense.cost)
+
+
     expense.category = input("Enter the category: ")
+
     category+=[expense.category,"\n"]
+    category_check.append(expense.category)
+    # print(category_check)
+
+    f = open(user.name+"category.txt","a+")
+    f.writelines(category)
+    f.close()
+    
+    category.clear()
+    f.close()
+    f = open(user.name+"category.txt","r+")
+    p=f.read()
+    print(p)
+    f.close()
+    
+
     expense.specification = input("Enter the specification: ")
     specificaton.append(expense.specification)
 
@@ -48,30 +71,28 @@ def show_expense():
 
     for x in cost:
         print(x)
-print("Welcome to Machurian , Your Personal Expense Tracker")
+print("Welcome to Expenditure Calculator, Your Personal Expense Tracker")
 
 
 print("To add expense press 1 ")
 print("To show expenses press 2 ")
 print("To add user press 3")
-print("to add pocketmoney press 4")
+print("To add extra money press 4")
+print("To add pocketmoney press 5")
 
 while True:
     t = int(input(">> "))
     if t == 1:
+
         add_expense()
-        
-        f = open(user.name+".txt","a+")
-        f.writelines(category)
-        category.clear()
-        
-        f.close()
     if t == 2:
         show_expense()
     if t == 3:
         add_user()
     if t == 4 :
         add_pocketmoney()
+    if t == 5:
+        pocketmoney()
 
 # #%%
 # d={}

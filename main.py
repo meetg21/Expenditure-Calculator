@@ -5,6 +5,8 @@ specificaton = []
 
 
 category_check =[]
+cost_check = []
+specification_check =[]
 
 
 
@@ -32,15 +34,28 @@ def add_pocketmoney():
     global cost,category,specification
     addition_pocketmoney = int(input("enter amount u want add in ur pocket money:"))
     user.pocketmoney = user.pocketmoney + addition_pocketmoney
-    print(user.pocketmoney)
+    # print(user.pocketmoney)
 
 
 def add_expense():
     global cost,category,specificaton
     expense.cost = int(input("Enter the cost: "))
-    cost.append(expense.cost)
+    expense.cost = str(expense.cost)
+    cost+=[expense.cost,"\n"]
+    cost_check.append(expense.cost)
 
+    a = open(user.name+"cost.txt","a+")
+    a.writelines(cost)
+    a.close()
 
+    cost.clear()
+    a.close()
+    a = open(user.name+"cost.txt","r+")
+    b = a.read()
+    a.close()
+    # print(b)
+    # print(cost)
+############################################
     expense.category = input("Enter the category: ")
 
     category+=[expense.category,"\n"]
@@ -55,51 +70,68 @@ def add_expense():
     f.close()
     f = open(user.name+"category.txt","r+")
     p=f.read()
-    print(p)
+    # print(p)
+    # print(category)
     f.close()
     
-
+###########################################3
     expense.specification = input("Enter the specification: ")
-    specificaton.append(expense.specification)
+    specificaton+=[expense.specification,"\n"]
+    specification_check.append(expense.specification)
 
-    print(str(expense.cost) + " spent")
-    user.pocketmoney = user.pocketmoney - expense.cost
-    print("You have " + str(user.pocketmoney) + " pocketmoney left")
+    v = open(user.name+"specification.txt","a+")
+    v.writelines(specificaton)
+    v.close()
+
+    specificaton.clear()
+    v.close()
+    v = open(user.name+"specification.txt","r+")
+    w = v.read()
+    v.close()
+    # print(w)
+    
+
+
+
+
+    # print(f(expense.cost + " spent"))
+    user.pocketmoney = user.pocketmoney - int(expense.cost)
+    print(user.pocketmoney)
+    # print("You have " + str(user.pocketmoney) + " pocketmoney left")
+
+
+
 
 def show_expense():
     print("Cost")
 
     for x in cost:
         print(x)
-print("Welcome to Expenditure Calculator, Your Personal Expense Tracker")
 
 
-print("To add expense press 1 ")
-print("To show expenses press 2 ")
-print("To add user press 3")
-print("To add extra money press 4")
-print("To add pocketmoney press 5")
-
+def display():
+    print("Welcome to Expenditure Calculator, Your Personal Expense Tracker")
+    print("To add user press 1:")
+    print("To set pocketmoney of the user press 2:")
+    print("To add expense press 3: ")
+    print("To show expenses press 4; ")
+    print("To add extra money press 5:")
+  
+display()
 while True:
+    
     t = int(input(">> "))
     if t == 1:
-
-        add_expense()
-    if t == 2:
-        show_expense()
-    if t == 3:
         add_user()
-    if t == 4 :
-        add_pocketmoney()
-    if t == 5:
+    if t == 2:
         pocketmoney()
+    if t == 3:
+        add_expense()
+    if t == 4 :
+        show_expense()
+    if t == 5:
+        add_pocketmoney()
+       
 
-# #%%
-# d={}
-# username=input("username")
-# d["username"]=username
-# pocketmoney=int(input(""))
-# c+=pocketmoney
-# d["pocketmoney"]=c
 
 

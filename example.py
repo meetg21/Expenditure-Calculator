@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import json
 from tkinter import messagebox
+from turtle import back, bgcolor
 from unicodedata import category, name
 from tkcalendar import DateEntry
 
@@ -19,10 +20,11 @@ def viewexpense():
     global root
     root.destroy()
     root2=Tk()
-    root2.title("Expense tracker")
-    root2.geometry('500x400')
+    root2.title("Display Window")
+    root2.geometry('530x500')
     root2.resizable(False,False)
-    pic = PhotoImage(file="icons.png")
+    root2['background']='#CDBA96'
+    pic = PhotoImage(file="notes.png")
     root2.iconphoto(False,pic)
     rows = data["value"]
     amount = 0
@@ -31,21 +33,21 @@ def viewexpense():
     print(rows)
     print(amount)
     
-    l=Label(root2,text="Date\t  Name\t  Category\t  Expense",font=('arial',15,'bold'),bg="DodgerBlue2",fg="white")
-    l.place(y=50,x=50)
+    l=Label(root2,text="Date\t        Name\tCategory\t        Expense",font=('roboto',15,'bold','italic'),bg="#8B5A00",fg="white")
+    l.place(y=50,x=20)
 
     st=""
     for i in rows:
         for j in i:
-            st+=str(j)+'\t'
+            st+=str(j)+'\t\t'
         st+='\n'
-    st+=f"\n \t    \t    \tTotal \t {amount}"
+    st+=f"\n\t\t\t                      Total :   ₹{amount}"
     print(st)
-    l=Label(root2,text=st,font=('arial',12))
-    l.place(y=100,x=50)
+    l=Label(root2,text=st,font=('arial',12),background="#CDBA96")
+    l.place(y=100,x=20)
 
     submitbtn=ttk.Button(root2,command=lambda: [root2.destroy(),home()],text="BACK",width=12)
-    submitbtn.grid(row=6,column=0,padx=13,pady=13)
+    submitbtn.grid(row=0,column=0,padx=16,pady=300)
 
 
 
@@ -54,38 +56,39 @@ init()
 def home():
     global root
     root=Tk()
-    root.title("Expense tracker")
-    root.geometry('400x400')
+    root.title("Expense Tracker")
+    root.geometry('400x270')
+    root['background']='#CDBA96'
     root.resizable(False,False)
-    pic = PhotoImage(file="icons.png")
+    pic = PhotoImage(file="stock.png")
     root.iconphoto(False,pic)
 
-    dateLabel=Label(root,text="Date",font=('arial',15,'bold'),bg="DodgerBlue2",fg="white",width=12)
-    dateLabel.grid(row=0,column=0,padx=7,pady=7)
+    dateLabel=Label(root,text="Date",font=('arial',15,'bold','italic'),bg="#8B5A00",fg="white",width=12)
+    dateLabel.grid(row=3,column=0,padx=7,pady=10)
 
-    dateEntry=DateEntry(root,width=12,font=('arial',15,'bold'))
-    dateEntry.grid(row=0,column=1,padx=7,pady=7)
+    dateEntry=DateEntry(root,width=12,font=('arial',15,'bold'),bg='#D5B77A')
+    dateEntry.grid(row=3,column=1,padx=7,pady=10)
 
     Name=StringVar()
-    nameLabel=Label(root, text="Name",font=('arial',15,'bold'),bg="DodgerBlue2",fg="white",width=12)
-    nameLabel.grid(row=1,column=0,padx=7,pady=7)
+    nameLabel=Label(root, text="Name",font=('arial',15,'bold','italic'),bg="#8B5A00",fg="white",width=12)
+    nameLabel.grid(row=4,column=0,padx=7,pady=10)
 
-    NameEntry=Entry(root,textvariable=Name,font=('arial',15,'bold'))
-    NameEntry.grid(row=1,column=1,padx=7,pady=7)
+    NameEntry=Entry(root,textvariable=Name,font=('arial',15,'bold'),bg='#D5B77A')
+    NameEntry.grid(row=4,column=1,padx=7,pady=10)
 
     Title=StringVar()
-    titleLabel=Label(root, text="Category",font=('arial',15,'bold'),bg="DodgerBlue2",fg="white",width=12)
-    titleLabel.grid(row=2,column=0,padx=7,pady=7)
+    titleLabel=Label(root, text="Category",font=('arial',15,'bold','italic'),bg="#8B5A00",fg="white",width=12)
+    titleLabel.grid(row=5,column=0,padx=7,pady=10)
 
-    titleEntry=Entry(root,textvariable=Title,font=('arial',15,'bold'))
-    titleEntry.grid(row=2,column=1,padx=7,pady=7)
+    titleEntry=Entry(root,textvariable=Title,font=('arial',15,'bold'),bg='#D5B77A')
+    titleEntry.grid(row=5,column=1,padx=7,pady=10)
 
     Expense=IntVar()
-    expenseLabel=Label(root,text="Expense",font=('arial',15,'bold'),bg="DodgerBlue2",fg="white",width=12)
-    expenseLabel.grid(row=3,column=0,padx=7,pady=7)
+    expenseLabel=Label(root,text="Expense",font=('arial',15,'bold','italic'),bg="#8B5A00",fg="white",width=12)
+    expenseLabel.grid(row=6,column=0,padx=7,pady=10)
 
-    expenseEntry=Entry(root,textvariable=Expense,font=('arial',15,'bold'))
-    expenseEntry.grid(row=3,column=1,padx=7,pady=7)
+    expenseEntry=Entry(root,textvariable=Expense,font=('arial',15,'bold'),bg='#D5B77A')
+    expenseEntry.grid(row=6,column=1,padx=7,pady=10)
 
     def submitexpense():
         values=[dateEntry.get(),Name.get(),Title.get(),Expense.get()]
@@ -101,12 +104,13 @@ def home():
         else:
             messagebox.showerror("Error","Invalid value")
 
-    submitbtn=ttk.Button(root,command=submitexpense,text="Submit",width=12 )
-    submitbtn.grid(row=4,column=0,padx=13,pady=13)
+    submitbtn=ttk.Button(root,command=submitexpense,text="Submit",width=12)
+    submitbtn.grid(row=7,column=0,padx=13,pady=16)
+    # submitbtn.configure(bg="#8B5A00",fg="white")
 
 
     submitbtn=ttk.Button(root,command=viewexpense,text="Expenses",width=12 )
-    submitbtn.grid(row=6,column=0,padx=13,pady=13)
+    submitbtn.grid(row=7,column=1,padx=13,pady=16)
     mainloop()
 
 home()

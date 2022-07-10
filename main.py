@@ -2,12 +2,6 @@ users =[]
 pocketmoney=[]
 cost = []
 category = []
-specificaton = []
-
-x = []
-category_check =[]
-cost_check = []
-specification_check =[]
 
 class user:
     def _init_(self,name,pocketmoney):
@@ -15,10 +9,10 @@ class user:
         self.pocketmoney = pocketmoney
 
 class expense:
-    def _init_(self,cost,category,specification):
+    def _init_(self,cost,category):
         self.cost = cost
         self.category = category
-        self.specification = specification
+        
 
 def add_user():
     user.name = input("Enter your name: ")
@@ -32,18 +26,18 @@ def add_pocketmoney():
     index = users.index(username)
     addition_pocketmoney = int(input("enter amount u want add in ur pocket money:"))
     pocketmoney[index] = pocketmoney[index] + addition_pocketmoney
-    # print(user.pocketmoney)
+    
 
 
 def add_expense():
-    global cost,category,specificaton,pocketmoney,users
+    global cost,category,pocketmoney,users
     username = input("Enter your Username: ")
     index = users.index(username)
     
     expense.cost = int(input("Enter the cost: "))
     expense.cost = str(expense.cost)
     cost+=[expense.cost,"\n"]
-    cost_check.append(expense.cost)
+
 
     pocketmoney[index] = pocketmoney[index] - int(expense.cost)
 
@@ -57,14 +51,11 @@ def add_expense():
     a = open(users[index]+"cost.txt","r+")
     b = a.read()
     a.close()
-    # print(b)
-    # print(cost)
+    
 ############################################
     expense.category = input("Enter the category: ")
 
     category+=[expense.category,"\n"]
-    category_check.append(expense.category)
-    # print(category_check)
 
     f = open(users[index]+"category.txt","a+")
     f.writelines(category)
@@ -74,33 +65,12 @@ def add_expense():
     f.close()
     f = open(users[index]+"category.txt","r+")
     p=f.read()
-    # print(p)
-    # print(category)
     f.close()
     
 ###########################################3
-    expense.specification = input("Enter the specification: ")
-    specificaton+=[expense.specification,"\n"]
-    specification_check.append(expense.specification)
-
-    v = open(users[index]+"specification.txt","a+")
-    v.writelines(specificaton)
-    v.close()
-
-    specificaton.clear()
-    v.close()
-    v = open(users[index]+"specification.txt","r+")
-    w = v.read()
-    v.close()
-    print(users[index])
-    # print(b + w + p) 
-    # x.append(b)
-    # print(x)
-
-
-
+   
 def show_expense():
-   global cost,category,specificaton,pocketmoney,user
+   global cost,category,pocketmoney,user
    username = input("Enter your Username: ")
    index = users.index(username)
    print("You have " + str(pocketmoney[index]) + " pocketmoney left") 
@@ -111,20 +81,44 @@ def display():
     print("To add expense press 2: ")
     print("To show expenses press 3; ")
     print("To add extra money press 4:")
+
+def trial():
+    l1=[]
+    global cost,category,pocketmoney,users
+    username = input("Enter your Username: ")
+    index = users.index(username)        
+    v = open(users[index]+"specification.txt","r+")
+
+    r = v.readlines()
+        
+    
+
+    v.close()
+    for i in r:
+        s1=""
+        for j in i:
+            if j!="\n":
+                s1+=j
+            else:
+                break
+        l1+=[s1]
+    # print(l1)            
+
+
+
+
   
 display()
 while True:
-    
+   
     t = int(input(">> "))
     if t == 1:
         add_user()
+        
     if t == 2:
         add_expense()
     if t == 3:
        show_expense()
     if t == 4:
         add_pocketmoney()
-       
-
-
 

@@ -1,124 +1,125 @@
-users =[]
-pocketmoney=[]
-cost = []
-category = []
+from tkinter import *
+from tkinter import ttk
+import json
+from tkinter import messagebox
+from turtle import back, bgcolor
+from unicodedata import category, name
+from tkcalendar import DateEntry
 
-class user:
-    def _init_(self,name,pocketmoney):
-        self.name = name
-        self.pocketmoney = pocketmoney
+def init():
+    global data
+    try:
+        with open("data.json", "r") as f:
+            data = json.load(f)
+    except:
+        data = {"value":[]}
+        with open("data.json", "w") as f:
+            json.dump(data, f)
 
-class expense:
-    def _init_(self,cost,category):
-        self.cost = cost
-        self.category = category
-        
-
-def add_user():
-    user.name = input("Enter your name: ")
-    users.append(user.name)
-    user.pocketmoney = int(input("Enter your pocketmoney: "))
-    pocketmoney.append(user.pocketmoney)
-
-def add_pocketmoney():
-    global cost,category,specification
-    username = input("Enter your username: ")
-    index = users.index(username)
-    addition_pocketmoney = int(input("enter amount u want add in ur pocket money:"))
-    pocketmoney[index] = pocketmoney[index] + addition_pocketmoney
+def viewexpense():
+    global root
+    root.destroy()
+    root2=Tk()
+    root2.title("Display Window")
+    root2.geometry('530x500')
+    root2.resizable(False,False)
+    root2['background']='#CDBA96'
+    pic = PhotoImage(file="notes.png")
+    root2.iconphoto(False,pic)
+    rows = data["value"]
+    amount = 0
+    for i in rows:
+        amount+=i[3]
+    print(rows)
+    print(amount)
     
+    l=Label(root2,text="Date\t        Name\tCategory\t        Expense",font=('roboto',15,'bold','italic'),bg="#8B5A00",fg="white")
+    l.place(y=50,x=20)
 
-
-def add_expense():
-    global cost,category,pocketmoney,users
-    username = input("Enter your Username: ")
-    index = users.index(username)
-    
-    expense.cost = int(input("Enter the cost: "))
-    expense.cost = str(expense.cost)
-    cost+=[expense.cost,"\n"]
-
-
-    pocketmoney[index] = pocketmoney[index] - int(expense.cost)
-
-
-    a = open(users[index]+"cost.txt","a+")
-    a.writelines(cost)
-    a.close()
-
-    cost.clear()
-    a.close()
-    a = open(users[index]+"cost.txt","r+")
-    b = a.read()
-    a.close()
-    
-############################################
-    expense.category = input("Enter the category: ")
-
-    category+=[expense.category,"\n"]
-
-    f = open(users[index]+"category.txt","a+")
-    f.writelines(category)
-    f.close()
-    
-    category.clear()
-    f.close()
-    f = open(users[index]+"category.txt","r+")
-    p=f.read()
-    f.close()
-    
-###########################################3
-   
-def show_expense():
-   global cost,category,pocketmoney,user
-   username = input("Enter your Username: ")
-   index = users.index(username)
-   print("You have " + str(pocketmoney[index]) + " pocketmoney left") 
-
-def display():
-    print("Welcome to Expenditure Calculator, Your Personal Expense Tracker")
-    print("To add user press 1:")
-    print("To add expense press 2: ")
-    print("To show expenses press 3; ")
-    print("To add extra money press 4:")
-
-def trial():
-    l1=[]
-    global cost,category,pocketmoney,users
-    username = input("Enter your Username: ")
-    index = users.index(username)        
-    v = open(users[index]+"specification.txt","r+")
-
-    r = v.readlines()
-        
-    
-
-    v.close()
-    for i in r:
-        s1=""
+    st=""
+    for i in rows:
         for j in i:
-            if j!="\n":
-                s1+=j
-            else:
-                break
-        l1+=[s1]
-    # print(l1)            
+            st+=str(j)+'\t\t'
+        st+='\n'
+    st+=f"\n\t\t\t                      Total :   ₹{amount}"
+    print(st)
+    l=Label(root2,text=st,font=('arial',12),background="#CDBA96")
+    l.place(y=100,x=20)
+
+    style = ttk.Style()
+    style.configure("BW.TLabel",background = "#8B5A00",foreground = "white",font = ("arial",10,"bold","italic"))
+    backbtn=ttk.Button(root2,command=lambda: [root2.destroy(),home()],text="BACK",style="BW.TLabel",width=12)
+
+    backbtn.grid(row=0,column=0,padx=16,pady=300)
 
 
 
+init()
 
-  
-display()
-while True:
-   
-    t = int(input(">> "))
-    if t == 1:
-        add_user()
-        
-    if t == 2:
-        add_expense()
-    if t == 3:
-       show_expense()
-    if t == 4:
-        add_pocketmoney()
+def home():
+    global root
+    root=Tk()
+    root.title("Expense Tracker")
+    root.geometry('400x300')
+    root['background']='#CDBA96'
+    root.resizable(False,False)
+    pic = PhotoImage(file="stock.png")
+    root.iconphoto(False,pic)
 
+    dateLabel=Label(root,text="Date",font=('arial',15,'bold','italic'),bg="#8B5A00",fg="white",width=12)
+    dateLabel.grid(row=3,column=0,padx=3,pady=10)
+
+    x = ttk.Style()
+    x.configure("GW.TLabel",background = "#D5B77A",foreground = "black",font = ("arial",10,"bold","italic"))
+
+    dateEntry=DateEntry(root,width=20,x="GW.TLabel")
+    dateEntry.grid(row=3,column=1,padx=0,pady=0)
+
+    Name=StringVar()
+    nameLabel=Label(root, text="Name",font=('arial',15,'bold','italic'),bg="#8B5A00",fg="white",width=12)
+    nameLabel.grid(row=4,column=0,padx=3,pady=10)
+
+    NameEntry=Entry(root,width=20,textvariable=Name,font=('arial',15,'bold'),bg='#D5B77A')
+    NameEntry.grid(row=4,column=1,padx=5,pady=0)
+
+    Title=StringVar()
+    titleLabel=Label(root, text="Category",font=('arial',15,'bold','italic'),bg="#8B5A00",fg="white",width=12)
+    titleLabel.grid(row=5,column=0,padx=3,pady=10)
+
+    titleEntry=Entry(root,width=20,textvariable=Title,font=('arial',15,'bold'),bg='#D5B77A')
+    titleEntry.grid(row=5,column=1,padx=5,pady=0)
+
+    Expense=IntVar()
+    expenseLabel=Label(root,text="Expense",font=('arial',15,'bold','italic'),bg="#8B5A00",fg="white",width=12)
+    expenseLabel.grid(row=6,column=0,padx=3,pady=10)
+
+    expenseEntry=Entry(root,width=20,textvariable=Expense,font=('arial',15,'bold'),bg='#D5B77A')
+    expenseEntry.grid(row=6,column=1,padx=5,pady=0)
+
+    def submitexpense():
+        values=[dateEntry.get(),Name.get(),Title.get(),Expense.get()]
+        if "" not in values:
+            print(values)
+            data["value"].append(values)
+            with open("data.json", "w") as f:
+                    json.dump(data, f)
+            Name.set("")
+            Title.set("")
+            Expense.set("")
+            viewexpense()
+        else:
+            messagebox.showerror("Error","Invalid value")
+    
+    style = ttk.Style()
+    style.configure("BW.TLabel",background = "#8B5A00",foreground = "white",font = ("arial",10,"bold","italic"))
+    submitbtn=ttk.Button(root,command=submitexpense,text="Submit",style="BW.TLabel",width=8)
+    submitbtn.grid(row=7,column=0,padx=3,pady=5)
+    
+    expensebtn=ttk.Button(root,command=viewexpense,text="Expenses",style="BW.TLabel",width=9 )
+    expensebtn.grid(row=7,column=1,padx=30,pady=5)
+
+    quitBtn = ttk.Button(root,text="Log Out",style="BW.TLabel", command=root.destroy,width=8)
+    quitBtn.grid(row=0,column=1,padx=15,pady=9)
+    mainloop()
+
+home()
